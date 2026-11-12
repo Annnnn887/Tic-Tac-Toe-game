@@ -7,10 +7,8 @@ class Program
     static void Main()
     {
         
-        // Создание массива, в котором будут храниться крестики или нолики
         char[,] gameBoard = new char[3, 3];
         
-        // Заполнение массива пустыми строчками
         for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 3; j++)
@@ -19,7 +17,6 @@ class Program
             }
         }
         
-        //Сама игра, которая пока длится 9 ходов(т.к. клеток 9)
         for (int i = 0; i < 9; i++)
         {
             drawBoard(gameBoard);
@@ -31,7 +28,6 @@ class Program
     }
     
     
-    // Рисует таблицу игры
     static void drawBoard(char[,] board)
     {
         Console.WriteLine();
@@ -49,7 +45,6 @@ class Program
         Console.WriteLine();
     }
     
-    //Получает и записывает ход игрока. Также тут проверка на правильность ввода ответа
     static (int row, int col) ReadMove(char[,] board, char player)
     {
         while (true)
