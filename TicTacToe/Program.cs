@@ -53,17 +53,26 @@ class Program
             if (GameWin(gameBoard, IconPlayer1))
             {
                 DrawBoard(gameBoard);
-                Console.WriteLine("Игрок 1 победил! Конец игры");
+                Console.WriteLine("Игрок 1 победил!");
+                Console.WriteLine("Конец игры");
                 break;
             }
 
             if (GameWin(gameBoard, IconPlayer2))
             {
                 DrawBoard(gameBoard);
-                Console.WriteLine("Игрок 2 победил! Конец игры");
+                Console.WriteLine("Игрок 2 победил!");
+                Console.WriteLine("Конец игры");
                 break;
             }
             
+            if (GameDraw(gameBoard))
+            {
+                DrawBoard(gameBoard);
+                Console.WriteLine("Ничья!");
+                Console.WriteLine("Конец игры");
+                break;
+            }
         }
     }
     
@@ -181,6 +190,24 @@ class Program
 
         return false;
     }
-    
-    
+
+    static bool GameDraw(char[,] gameSymbols)
+    {
+        int count = 0;
+        foreach (char symbol in gameSymbols)
+        {
+            if (symbol != ' ')
+            {
+                count += 1;
+            }
+        }
+
+        if (count == 9)
+        {
+            return true;
+        } 
+        
+        return false;
+
+    }
 }
