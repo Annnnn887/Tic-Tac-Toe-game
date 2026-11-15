@@ -20,7 +20,7 @@ class Program
         
         for (int i = 0; i < 9; i++)
         {
-            drawBoard(gameBoard);
+            DrawBoard(gameBoard);
 
             if (i % 2 == 0)
             {
@@ -49,14 +49,26 @@ class Program
                     gameBoard[row, col] = IconPlayer2;
                 }
             }
+
+            if (GameWin(gameBoard, IconPlayer1))
+            {
+                DrawBoard(gameBoard);
+                Console.WriteLine("Игрок 1 победил! Конец игры");
+                break;
+            }
+
+            if (GameWin(gameBoard, IconPlayer2))
+            {
+                DrawBoard(gameBoard);
+                Console.WriteLine("Игрок 2 победил! Конец игры");
+                break;
+            }
             
         }
-        
-        drawBoard(gameBoard);
     }
     
     
-    static void drawBoard(char[,] board)
+    static void DrawBoard(char[,] board)
     {
         Console.WriteLine();
         Console.WriteLine("    1   2   3");
@@ -107,7 +119,7 @@ class Program
 
     static (char player1, char player2) IconSelection()
     {
-        string playerX, playerO;
+        string? playerX, playerO;
 
         while (true)
         {
@@ -137,6 +149,37 @@ class Program
 
             return playerX == "1" ? ('X', 'O') : ('O', 'X');
         }
+    }
+
+    static bool GameWin(char[,] gameSymbols, char playerSymbol)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (gameSymbols[i, 0] == playerSymbol && gameSymbols[i, 1] == playerSymbol && 
+                gameSymbols[i, 2] == playerSymbol)
+            {
+                return true;
+            }
+
+            if (gameSymbols[0, i] == playerSymbol && gameSymbols[1, i] == playerSymbol &&
+                gameSymbols[2, i] == playerSymbol)
+            {
+                return true;
+            }
+        }
+
+        if (gameSymbols[0, 0] == playerSymbol && gameSymbols[1, 1] == playerSymbol && 
+            gameSymbols[2, 2] == playerSymbol)
+        {
+            return true;
+        }
+        if (gameSymbols[0, 2] == playerSymbol && gameSymbols[1, 1] == playerSymbol && 
+            gameSymbols[2, 0] == playerSymbol)
+        {
+            return true;
+        }
+
+        return false;
     }
     
     
