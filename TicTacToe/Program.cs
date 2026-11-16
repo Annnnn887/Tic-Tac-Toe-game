@@ -6,10 +6,79 @@ class Program
 {
     static void Main()
     {
-
-        var (IconPlayer1, IconPlayer2) = IconSelection();
-        char[,] gameBoard = new char[3, 3];
+        bool game = true;
         
+        while (game)
+        {
+            var (IconPlayer1, IconPlayer2) = IconSelection();
+            char[,] gameBoard = new char[3, 3];
+
+            EmptyGameBoard(gameBoard);
+            
+            for (int i = 0; i < 9; i++)
+            {
+                DrawBoard(gameBoard);
+
+                if (i % 2 == 0)
+                {
+                    if (IconPlayer1 == 'X')
+                    {
+                        var (row, col) = ReadMove(gameBoard, 1);
+                        gameBoard[row, col] = IconPlayer1;
+                    }
+                    else
+                    {
+                        var (row, col) = ReadMove(gameBoard, 2);
+                        gameBoard[row, col] = IconPlayer2;
+                    }
+                
+                }
+                else
+                {
+                    if (IconPlayer1 == 'O')
+                    {
+                        var (row, col) = ReadMove(gameBoard, 1);
+                        gameBoard[row, col] = IconPlayer1;
+                    }
+                    else
+                    {
+                        var (row, col) = ReadMove(gameBoard, 2);
+                        gameBoard[row, col] = IconPlayer2;
+                    }
+                }
+
+                if (GameWin(gameBoard, IconPlayer1))
+                {
+                    DrawBoard(gameBoard);
+                    Console.WriteLine("Игрок 1 победил!");
+                    Console.WriteLine("Конец игры");
+                    game = GameRestart(gameBoard);
+                    break;
+                }
+
+                if (GameWin(gameBoard, IconPlayer2))
+                {
+                    DrawBoard(gameBoard);
+                    Console.WriteLine("Игрок 2 победил!");
+                    Console.WriteLine("Конец игры");
+                    game = GameRestart(gameBoard);
+                    break;
+                }
+            
+                if (GameDraw(gameBoard))
+                {
+                    DrawBoard(gameBoard);
+                    Console.WriteLine("Ничья!");
+                    Console.WriteLine("Конец игры");
+                    game = GameRestart(gameBoard);
+                    break;
+                }
+            }
+        }
+    }
+
+    static void EmptyGameBoard(char [,] gameBoard)
+    {
         for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 3; j++)
@@ -17,65 +86,7 @@ class Program
                 gameBoard[i, j] = ' ';
             }
         }
-        
-        for (int i = 0; i < 9; i++)
-        {
-            DrawBoard(gameBoard);
-
-            if (i % 2 == 0)
-            {
-                if (IconPlayer1 == 'X')
-                {
-                    var (row, col) = ReadMove(gameBoard, 1);
-                    gameBoard[row, col] = IconPlayer1;
-                }
-                else
-                {
-                    var (row, col) = ReadMove(gameBoard, 2);
-                    gameBoard[row, col] = IconPlayer2;
-                }
-                
-            }
-            else
-            {
-                if (IconPlayer1 == 'O')
-                {
-                    var (row, col) = ReadMove(gameBoard, 1);
-                    gameBoard[row, col] = IconPlayer1;
-                }
-                else
-                {
-                    var (row, col) = ReadMove(gameBoard, 2);
-                    gameBoard[row, col] = IconPlayer2;
-                }
-            }
-
-            if (GameWin(gameBoard, IconPlayer1))
-            {
-                DrawBoard(gameBoard);
-                Console.WriteLine("Игрок 1 победил!");
-                Console.WriteLine("Конец игры");
-                break;
-            }
-
-            if (GameWin(gameBoard, IconPlayer2))
-            {
-                DrawBoard(gameBoard);
-                Console.WriteLine("Игрок 2 победил!");
-                Console.WriteLine("Конец игры");
-                break;
-            }
-            
-            if (GameDraw(gameBoard))
-            {
-                DrawBoard(gameBoard);
-                Console.WriteLine("Ничья!");
-                Console.WriteLine("Конец игры");
-                break;
-            }
-        }
     }
-    
     
     static void DrawBoard(char[,] board)
     {
@@ -209,5 +220,26 @@ class Program
         
         return false;
 
+    }
+
+    static bool GameRestart(char [,] gameBoard)
+    {
+
+        while (true)
+        {
+            Console.WriteLine("Хотите сыграть ещё раз?(1 - да, 2 - нет)");
+            string answer = Console.ReadLine();
+        
+            switch (answer)
+            {
+                case "1":
+                    return true;
+                case "2":
+                    return false;
+                default:
+                    Console.WriteLine("Неверное значение! Введите ещё раз");
+                    break;
+            }
+        }
     }
 }
